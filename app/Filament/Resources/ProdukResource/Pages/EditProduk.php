@@ -16,4 +16,15 @@ class EditProduk extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['harga'] = intval(preg_replace('(\D+)', '', $data['harga']));
+        return $data;
+    }
 }

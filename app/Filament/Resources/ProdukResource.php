@@ -10,7 +10,13 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Actions;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Table;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -25,18 +31,41 @@ class ProdukResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('nama')
+                    ->label('Nama')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('harga')
+                Select::make('id_kategori')
+                    ->label('Kategori')
+                    ->relationship('kategori', 'name')
+                    ->required()
+                    ->preload()
+                    ->searchable(),
+                Forms\Components\TextInput::make('berat')
+                    ->label('Berat')
                     ->required()
                     ->numeric(),
+                Forms\Components\TextInput::make('satuan')
+                    ->label('Satuan')
+                    ->required(),
+                Forms\Components\TextInput::make('harga')
+                    ->label('Harga')
+                    ->mask('Rp.999.999.999.999.999')
+                    ->placeholder('Rp.0')
+                    ->required(),
                 Forms\Components\Textarea::make('deskripsi')
+                    ->label('Deskripsi')
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\FileUpload::make('image')
+                FileUpload::make('image')
                     ->image()
-                    ->required(),
+                    ->maxSize(40000)
+                    ->validationMessages([
+                       'image' => 'File bukan gambar',
+                       'max' => 'Ukuran gambar terlalu besar maximal : 4MB'
+                    ])
+                    ->required()
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -44,12 +73,23 @@ class ProdukResource extends Resource
     {
         return $table
             ->columns([
+                ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('nama')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('harga')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\ImageColumn::make('image'),
+                TextColumn::make('kategori.name')
+                    ->label('Kategori')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('berat')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('satuan')
+                    ->searchable(),
+                TextColumn::make('harga')
+                    ->label('Harga')
+                    ->formatStateUsing(function ($state) {
+                        return 'Rp.' . number_format($state, 0, ',', '.');
+                    }),
+                // SpatieMediaLibraryImageColumn::make('produk')->collection('produk'),
+                    
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
