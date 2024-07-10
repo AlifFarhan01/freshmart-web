@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\homeController;
 use App\Http\Controllers\ProfileController;
 
 use Illuminate\Support\Facades\Route;
@@ -19,9 +20,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified','role:admin'])->name('dashboard');
+Route::get('/v_public', function () {
+    return view('v_public.home');
+})->middleware(['auth'])->name('v_public');
+
+
+Route::prefix('v_public')->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/', [homeController::class, 'index'])->name('v_pubic.home');
+    });
+});
 
 
 Route::middleware('auth')->group(function () {
