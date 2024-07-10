@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\KeranjangController;
+use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
-
+use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,15 +17,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [ProdukController::class, 'index']);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified','role:admin'])->name('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::post('/dashboard', [KeranjangController::class, 'store'])->name('keranjang.store')->middleware('auth');
+Route::get('/keranjang/items', [KeranjangController::class, 'index'])->name('keranjang.items');
+Route::get('/cart-count', [KeranjangController::class, 'getCartCount']); 
+Route::delete('/keranjang/delete/{id}', [KeranjangController::class, 'deleteItem'])->name('keranjang.delete');
 
+ Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
+
+Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
