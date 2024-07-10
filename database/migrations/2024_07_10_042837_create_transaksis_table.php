@@ -10,9 +10,14 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::table('produk', function (Blueprint $table) {
-            $table->integer('berat')->default(0)->change();
+   {
+        Schema::create('transaksi', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->integer('total');
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -21,8 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('produk', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('transaksi');
     }
 };
