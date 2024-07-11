@@ -45,6 +45,7 @@
 
 
     <!-- Navbar start -->
+
     <div class="container-fluid fixed-top">
         <div class="container topbar bg-primary d-none d-lg-block">
             <div class="d-flex justify-content-between">
@@ -57,7 +58,8 @@
                 <div class="top-link pe-2">
                     <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
                     <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
-                    <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
+                    <a href="#" class="text-white"><small class="text-white ms-2">Sales and
+                            Refunds</small></a>
                 </div>
             </div>
         </div>
@@ -72,37 +74,31 @@
                 </button>
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
-                        <a href="index.html" class="nav-item nav-link active">Home</a>
-                        <a href="shop.html" class="nav-item nav-link">Shop</a>
-                        <a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                <a href="cart.html" class="dropdown-item">Cart</a>
-                                <a href="checkout.html" class="dropdown-item">Checkout</a>
-                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                <a href="404.html" class="dropdown-item">404 Page</a>
-                            </div>
-                        </div>
-                        <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        <a href="#home" id="home-link"class="nav-item nav-link">Home</a>
+                        <a href="#shop" id="shop-link"class="nav-item nav-link">Shop</a>
+                        <a href="#FAQ" class="nav-item nav-link">FAQ</a>
+                        <a href="#contact" class="nav-item nav-link">Contact</a>
                     </div>
                     <div class="d-flex m-3 me-0">
-                        <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary  me-4">
-                            <i class="fa fa-star me-2 text-primary"></i> Gabung Member
-                        </button>
+
 
 
                         <!-- Include the keranjang.blade.php -->
 
-                        @include('keranjang')
+
 
                         @auth
+                            <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary  me-4">
+                                <i class="fa fa-star me-2 text-primary"></i> Gabung Member
+                            </button>
+                            @include('keranjang')
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link" data-bs-toggle="dropdown">
                                     <i class="fas fa-user fa-2x"></i>
                                 </a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                     <a href="{{ route('profile.edit') }}" class="dropdown-item">Profile</a>
+                                    <a href="{{ route('history.index') }}" class="dropdown-item">History</a>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
                                         <button type="submit" class="dropdown-item">Logout</button>
@@ -321,8 +317,8 @@
                     <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
                     <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
                     <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> Distributed By <a
-                        class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
+                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> Distributed
+                    By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
                 </div>
             </div>
         </div>
@@ -337,7 +333,30 @@
 
 
 
+    <script>
+        // Ambil semua tautan navbar
+        var navLinks = document.querySelectorAll('.navbar-nav .nav-link');
 
+        // Tambahkan event listener saat dokumen di-scroll
+        window.addEventListener('scroll', function() {
+            var fromTop = window.scrollY;
+
+            navLinks.forEach(function(link) {
+                var section = document.querySelector(link.hash);
+
+                // Periksa apakah bagian ada dan apakah bagian sedang terlihat di atas jendela
+                if (
+                    section &&
+                    section.offsetTop <= fromTop + 50 &&
+                    section.offsetTop + section.offsetHeight > fromTop + 50
+                ) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+    </script>
 
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
