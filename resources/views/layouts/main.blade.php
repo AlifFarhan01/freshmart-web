@@ -92,6 +92,7 @@
                                 <i class="fa fa-star me-2 text-primary"></i> Gabung Member
                             </button>
                             @include('keranjang')
+
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link" data-bs-toggle="dropdown">
                                     <i class="fas fa-user fa-2x"></i>

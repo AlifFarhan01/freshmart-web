@@ -133,7 +133,38 @@
         </div>
     </section>
     <!-- Fruits Shop End-->
-
+    <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reviewModalLabel">Berikan Ulasan Anda</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="reviewForm">
+                        <div class="mb-3">
+                            <label for="rating" class="form-label">Rating:</label>
+                            <select class="form-select" id="rating" required>
+                                <option value="5">5 - Sangat Baik</option>
+                                <option value="4">4 - Baik</option>
+                                <option value="3">3 - Cukup</option>
+                                <option value="2">2 - Kurang</option>
+                                <option value="1">1 - Buruk</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="review" class="form-label">Review:</label>
+                            <textarea class="form-control" id="review" rows="3" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-primary" onclick="submitReview()">Kirim</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script>
