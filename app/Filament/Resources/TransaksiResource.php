@@ -6,8 +6,13 @@ use App\Exports\DataExport;
 use App\Filament\Resources\TransaksiResource\Pages;
 use App\Filament\Resources\TransaksiResource\RelationManagers;
 use App\Models\DetailTransaksi;
+use App\Models\Produk;
 use App\Models\Transaksi;
+use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -31,7 +36,29 @@ class TransaksiResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Select::make('user_id')
+                    ->label('Customer')
+                    ->required()
+                    ->preload()
+                    ->options(User::whereHas('roles', function ($query) {
+                        $query->where('name', 'Customer');
+                    })->get()->pluck('name', 'id')),
+                select::make('produk_id')
+                    ->label('Nama Produk')
+                    ->required()
+                    ->preload()
+                    ->options(Produk::get()->pluck('nama', 'id')),
+                TextInput::make('qty')
+                    ->label('QTY')
+                    ->required()
+                    ->numeric(),
+                TextInput::make('total')
+                    ->label('Total')
+                    ->required()
+                    ->numeric(),
+                DateTimePicker::make('created_at')
+                    ->label('Tanggal')
+                    ->nullable(),
             ]);
     }
 

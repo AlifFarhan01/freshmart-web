@@ -2,7 +2,6 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\DetailTransaksi;
 use App\Models\Produk;
 use App\Models\Transaksi;
 use App\Models\User;
@@ -12,7 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class StatsOverview extends BaseWidget
 {
-    protected static ?string $model = DetailTransaksi::class;
+    
     protected function getStats(): array
     {
         $user = User::whereHas('roles', function ($query){
