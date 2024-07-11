@@ -15,7 +15,6 @@ class Produk extends Model implements HasMedia
     protected $fillable =[
         'nama',
         'id_kategori',
-        'berat',
         'satuan',
         'harga',
         'deskripsi',

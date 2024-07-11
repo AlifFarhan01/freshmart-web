@@ -30,7 +30,6 @@
     </div>
 </div>
 
-<!-- Cart Button -->
 <a href="javascript:void(0)" class="position-relative me-4 my-auto" onclick="openCart()">
     <i class="fa fa-shopping-bag fa-2x"></i>
     <span id="cart-count"
@@ -103,26 +102,7 @@
     function addTransaksi() {
         const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         let totalText = document.getElementById('total-price').innerText;
-
-        // Debugging: log nilai totalText
-        console.log('totalText:', totalText);
-
-        // Hapus "Rp " dan ubah koma menjadi titik
-        totalText = totalText.replace('Rp ', '').replace(/\./g, '').replace(',', '.');
-
-        // Debugging: log nilai setelah pembersihan
-        console.log('totalText cleaned:', totalText);
-
-        let total = parseFloat(totalText); // Konversi ke angka
-
-        // Debugging: log nilai total setelah konversi
-        console.log('total parsed:', total);
-
-        if (isNaN(total)) {
-            alert('Terjadi kesalahan: total tidak valid.');
-            return;
-        }
-
+        let total = parseFloat(totalText);
         fetch("{{ route('transaksi.store') }}", {
                 method: 'POST',
                 headers: {
@@ -144,6 +124,10 @@
             .then(data => {
                 alert('Transaksi berhasil disimpan');
                 // Reset cart after successful transaction
+                var reviewModal = new bootstrap.Modal(document.getElementById('reviewModal'), {
+                    keyboard: false
+                });
+                reviewModal.show();
                 loadCartItems();
             })
             .catch(error => {

@@ -45,11 +45,9 @@ class ProdukResource extends Resource
                 Forms\Components\TextInput::make('satuan')
                     ->label('Satuan')
                     ->required(),
-                Forms\Components\TextInput::make('harga')
-                    ->label('Harga')
-                    ->mask('Rp.999.999.999.999.999')
-                    ->placeholder('Rp.0')
-                    ->required(),
+                 Forms\Components\TextInput::make('harga')
+                    ->required()
+                    ->numeric(),
                 Forms\Components\Textarea::make('deskripsi')
                     ->label('Deskripsi')
                     ->required()
