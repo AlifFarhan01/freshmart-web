@@ -1,10 +1,10 @@
 <!-- resources/views/keranjang.blade.php -->
 <div id="cartSidebar" class="cart-sidebar">
     <a href="javascript:void(0)" class="closebtn" onclick="closeCart()">×</a>
-    <h2>Your Cart</h2>
-    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+    <h2 style="padding:10px;">Your Cart</h2>
+    <div class="table-responsive" style="max-height: 400px; overflow-y: auto; padding:10px;">
         <table class="table">
-            <thead>
+            <thead style="font-size: 10px;">
                 <tr>
                     <th scope="col">Products</th>
                     <th scope="col">Name</th>
@@ -24,7 +24,7 @@
         <p class="mb-0 text-dark text-uppercase">TOTAL: <span id="total-price">0</span></p>
 
     </div>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center mt-4">
         <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button"
             onclick="addTransaksi()">Bayar</button>
     </div>
@@ -71,17 +71,19 @@
                         totalPrice += itemTotal;
 
                         cartTableBody += `
-                            <tr>
-                                <th scope="row">
-                                    <div class="d-flex align-items-center mt-2">
-                                        <img src="/storage/${item.produk.image}" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="${item.produk.nama}">
+                            <tr style="font-size: 10px; width:100%;">
+                                <th scope="row" style="vertical-align: middle;">
+                                    <div>
+                                        <img src="/storage/${item.produk.image}" class="img-fluid rounded-circle" style="width: 30px; height: 30px;" alt="${item.produk.nama}"><br>
                                     </div>
                                 </th>
-                                <td>${item.produk.nama}</td>
-                                <td>Rp ${item.produk.harga.toLocaleString('id-ID')}</td>
-                                <td>${item.qty}</td>
-                                <td>Rp ${itemTotal.toLocaleString('id-ID')}</td>
-                                <td><button class="btn btn-md rounded-circle bg-light border mt-4" onclick="deleteCartItem(${item.id})" >
+                                <td style="vertical-align: middle;">
+                                    ${item.produk.nama}
+                                </td>
+                                <td style="vertical-align: middle;">Rp ${item.produk.harga.toLocaleString('id-ID')}</td>
+                                <td style="vertical-align: middle;">${item.qty}</td>
+                                <td style="vertical-align: middle;">Rp ${itemTotal.toLocaleString('id-ID')}</td>
+                                <td style="vertical-align: middle;"><button class="btn btn-md rounded-circle bg-light border" onclick="deleteCartItem(${item.id})" >
                                     <i class="fa fa-times text-danger"></i>
                                 </button></td>
                             </tr>
