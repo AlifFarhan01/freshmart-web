@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\DetailTransaksi;
 use App\Models\Produk;
 use App\Models\Transaksi;
 use App\Models\User;
@@ -11,7 +12,6 @@ use Spatie\Permission\Traits\HasRoles;
 
 class StatsOverview extends BaseWidget
 {
-    
     protected function getStats(): array
     {
         $user = User::whereHas('roles', function ($query){
@@ -19,13 +19,11 @@ class StatsOverview extends BaseWidget
         })->count();
         $produk = Produk::all()->count();
         $transaksi = Transaksi::count();
-        $payment = Transaksi::sum('total');
-        $formattedTransaksiCount = number_format($payment, 0, ',', '.');
+       
         return [
             Stat::make('Customers', $user),
             Stat::make('Produk', $produk),
             Stat::make('Transaksi', $transaksi),
-            Stat::make('Total Payment','Rp. ' . $formattedTransaksiCount),
         ];
     }
 }

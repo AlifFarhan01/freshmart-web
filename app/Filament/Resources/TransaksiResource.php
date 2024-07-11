@@ -4,27 +4,24 @@ namespace App\Filament\Resources;
 
 use App\Exports\DataExport;
 use App\Filament\Resources\TransaksiResource\Pages;
-use App\Filament\Resources\TransaksiResource\RelationManagers;
 use App\Models\DetailTransaksi;
 use App\Models\Produk;
-use App\Models\Transaksi;
 use App\Models\User;
-use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Builder;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TransaksiResource extends Resource
 {
@@ -83,8 +80,12 @@ class TransaksiResource extends Resource
                     ->searchable(),
             ])
             ->filters([
-                SelectFilter::make('produk.nama')
-                    ->label('Produk')
+                QueryBuilder::make()
+                ->constraints([
+                    DateConstraint::make('created_at')
+                    ->label('Tahun')
+                ]),
+                SelectFilter::make('produk')->relationship('produk', 'nama')
             ], layout: FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\EditAction::make(),
