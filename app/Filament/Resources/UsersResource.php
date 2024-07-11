@@ -55,6 +55,7 @@ class UsersResource extends Resource
                     ->label('Nama Lengkap')
                     ->searchable(),
                 TextColumn::make('email')
+                    ->label('Email')
                     ->searchable(),
                 TextColumn::make('roles.name')
                     ->label('Roles')
@@ -73,6 +74,9 @@ class UsersResource extends Resource
                         'silver' => 'warning',
                         'gold' => 'succes',
                     })
+                    ->searchable(),
+                TextColumn::make('point')
+                    ->label('Point')
                     ->searchable(),
             ])
             ->filters([
