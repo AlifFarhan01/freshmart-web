@@ -44,8 +44,6 @@ class UsersResource extends Resource
                     ->multiple()
                     ->preload()
                     ->relationship('roles', 'name'),
-                Toggle::make('member')
-                    ->default(0),
             ]);
     }
 
@@ -70,12 +68,10 @@ class UsersResource extends Resource
                     ->label('Status Member')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        '1' => 'success',
-                        '0' => 'danger',
-                    })
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
-                        '1' => 'Member',
-                        '0' => 'Non Member'
+                        'non member' => 'danger',
+                        'bronze' => 'primary',
+                        'silver' => 'warning',
+                        'gold' => 'succes',
                     })
                     ->searchable(),
             ])

@@ -11,4 +11,5 @@ class Dashboard extends \Filament\Pages\Dashboard
         'md' => 2,
         'xl' => 3,
     ];
+    
 }
