@@ -40,18 +40,12 @@ class ProdukResource extends Resource
                     ->required()
                     ->preload()
                     ->searchable(),
-                Forms\Components\TextInput::make('berat')
-                    ->label('Berat')
-                    ->required()
-                    ->numeric(),
                 Forms\Components\TextInput::make('satuan')
                     ->label('Satuan')
                     ->required(),
-                Forms\Components\TextInput::make('harga')
-                    ->label('Harga')
-                    ->mask('Rp.999.999.999.999.999')
-                    ->placeholder('Rp.0')
-                    ->required(),
+                 Forms\Components\TextInput::make('harga')
+                    ->required()
+                    ->numeric(),
                 Forms\Components\Textarea::make('deskripsi')
                     ->label('Deskripsi')
                     ->required()
@@ -79,8 +73,7 @@ class ProdukResource extends Resource
                 TextColumn::make('kategori.name')
                     ->label('Kategori')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('berat')
-                    ->searchable(),
+                
                 Tables\Columns\TextColumn::make('satuan')
                     ->searchable(),
                 TextColumn::make('harga')
