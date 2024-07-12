@@ -29,25 +29,18 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
    {
-         Log::info('Received review submission:', $request->all());
+        
         $request->validate([
             'rating' => 'required|integer|min:1|max:5',
             'review' => 'required|string|max:255',
         ]);
 
-         Log::info('Validated review data:', [
-            'id_user' => auth()->id(),
-            'rating' => $request->rating,
-            'review' => $request->review,
-        ]);
 
         $review = new Review();
-        $review->id_user = auth()->user()->id; // Assuming the user is logged in
+        $review->user_id = auth()->user()->id; // Assuming the user is logged in
         $review->rating = $request->rating;
         $review->review = $request->review;
         $review->save();
-
-        Log::info('Review saved successfully:', $review->toArray());
 
         return response()->json(['success' => true]);
     }

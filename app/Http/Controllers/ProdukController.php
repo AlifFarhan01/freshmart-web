@@ -14,7 +14,7 @@ class ProdukController extends Controller
     public function index()
     {
         $produk=Produk::paginate(15);
-       $reviews = Review::latest()->take(5)->get();
+   $reviews = Review::with('user')->latest()->take(5)->get();
         return view('welcome',compact('produk','reviews'));
     }
 

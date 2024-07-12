@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->comment('member', '1 = bronze, 0 = non member, 2 = silver, 3 = gold')->default(0)->nullable()->change();
         });
-    }
+    }   
 
     /**
      * Reverse the migrations.

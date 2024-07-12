@@ -4,7 +4,7 @@
     <h2 style="padding:10px;">Your Cart</h2>
     <div class="table-responsive" style="max-height: 400px; overflow-y: auto; padding:10px;">
         <table class="table">
-            <thead style="font-size: 10px;">
+            <thead>
                 <tr>
                     <th scope="col">Products</th>
                     <th scope="col">Name</th>
@@ -70,7 +70,7 @@
                         totalPrice += itemTotal;
 
                         cartTableBody += `
-                            <tr style="font-size: 10px; width:100%;">
+                            <tr style="font-size: 12px; width:100%;">
                                 <th scope="row" style="vertical-align: middle;">
                                     <div>
                                         <img src="/storage/${item.produk.image}" class="img-fluid rounded-circle" style="width: 30px; height: 30px;" alt="${item.produk.nama}"><br>
@@ -102,7 +102,8 @@
     function addTransaksi() {
         const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         let totalText = document.getElementById('total-price').innerText;
-        let total = parseFloat(totalText);
+        totalText = totalText.replace('Rp ', '').replace(/\./g, '').replace(',', '.');
+        let total = parseFloat(totalText); // Konversi ke angka
         fetch("{{ route('transaksi.store') }}", {
                 method: 'POST',
                 headers: {
@@ -124,10 +125,6 @@
             .then(data => {
                 alert('Transaksi berhasil disimpan');
                 // Reset cart after successful transaction
-                var reviewModal = new bootstrap.Modal(document.getElementById('reviewModal'), {
-                    keyboard: false
-                });
-                reviewModal.show();
                 loadCartItems();
             })
             .catch(error => {
@@ -135,6 +132,7 @@
                 alert('Terjadi kesalahan saat menyimpan transaksi: ' + error.message);
             });
     }
+
 
 
     function deleteCartItem(itemId) {

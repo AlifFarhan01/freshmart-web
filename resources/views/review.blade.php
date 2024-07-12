@@ -14,14 +14,12 @@
                          <div class="mb-4 pb-4 border-bottom border-secondary">
                              <p class="mb-0">{{ $review->review }}
                              </p>
+
                          </div>
                          <div class="d-flex align-items-center flex-nowrap">
-                             <div class="bg-secondary rounded">
-                                 <img src="img/testimonial-1.jpg" class="img-fluid rounded"
-                                     style="width: 100px; height: 100px;" alt="">
-                             </div>
+
                              <div class="ms-4 d-block">
-                                 <h4 class="text-dark">Client Name</h4>
+                                 <h4 class="text-dark">{{ $review->user->name }}</h4>
                                  <div class="d-flex pe-5">
                                      @for ($i = 1; $i <= 5; $i++)
                                          @if ($i <= $review->rating)

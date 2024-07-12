@@ -70,10 +70,10 @@ class TransaksiController extends Controller
         $user = User::find(Auth::id());
         $detailtransaksi = DetailTransaksi::where('transaksi_id', $transaksi->id)->first();
         $point = $user->point;
-        if($user->member != 'non member'){
+      
             if($detailtransaksi->total >= 100000){
                 $jmlh = $point + 20;
-                if($jmlh > 0 && $jmlh < 200){
+                if($jmlh > 100 && $jmlh < 200){
                     $member = 'bronze';
                 }elseif($jmlh >= 200 && $jmlh < 300){
                     $member = 'silver';
@@ -84,7 +84,7 @@ class TransaksiController extends Controller
                     'member' => $member,
                     'point' => $jmlh
                 ]);
-            }
+            
         }
 
         Keranjang::where('id_user', Auth::id())->delete();
