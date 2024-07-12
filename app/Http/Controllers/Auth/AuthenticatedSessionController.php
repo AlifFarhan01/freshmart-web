@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Produk;
 use App\Providers\RouteServiceProvider;
 use Filament\Facades\Filament;
 use Illuminate\Http\RedirectResponse;
@@ -26,7 +27,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-       
+        $produk = Produk::paginate(15);
         $request->authenticate();
         $request->session()->regenerate();
         session()->flash('success', 'Login Berhasil');

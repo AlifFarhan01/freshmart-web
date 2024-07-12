@@ -22,9 +22,8 @@ class TransaksiController extends Controller
         $validatedData = $request->validate([
             'total' => 'required|numeric',
         ]);
-
-       
-
+        
+        
         // Buat transaksi baru
         $transaksi = Transaksi::create([
             'user_id' => Auth::id(),
@@ -32,59 +31,58 @@ class TransaksiController extends Controller
         ]);
 
         
-        // elseif(Auth::user()->member == 'non_member'){
-        //     if($validatedData['total'] >= 100000){
-        //         $jmlh = $point + 100;
-        //         if($jmlh > 0 && $jmlh < 200){
-        //             $member = 'bronze';
-        //         }elseif($jmlh >= 200 && $jmlh < 300){
-        //             $member = 'silver';
-        //         }elseif($jmlh >= 300 ){
-        //             $member = 'gold';
-        //         }
-        //         $user->update([
-        //             'member' => $member,
-        //             'point' => $jmlh
-        //         ]);
-        //     }
-        // }
         
+       // Ambil item-item yang ada di keranjang untuk user saat ini
+        $items = Keranjang::where('id_user', Auth::id())->get();
 
-        
+        // Simpan setiap item ke dalam detail_transaksi
+        foreach ($items as $item) {
+            DetailTransaksi::create([
+                'transaksi_id' => $transaksi->id,
+                'produk_id' => $item->id_produk,
+                'qty' => $item->qty,
+                'total' => $item->qty * $item->produk->harga, // Jika ada kolom total di tabel Keranjang
+            ]);
+        }
 
-        // Ambil item-item yang ada di keranjang untuk user saat ini
-            $items = Keranjang::where('id_user', Auth::id())->get();
 
-            // Simpan setiap item ke dalam detail_transaksi
-            foreach ($items as $item) {
-                DetailTransaksi::create([
-                    'transaksi_id' => $transaksi->id,
-                    'produk_id' => $item->id_produk,
-                    'qty' => $item->qty,
-                    'total' => $item->qty * $item->produk->harga, // Jika ada kolom total di tabel Keranjang
-                ]);
+        $detailtransaksi = DetailTransaksi::where('transaksi_id', $transaksi->id)->sum('total');
+        $user = User::with('members')->find(Auth::id());
+
+        if($user->members->nama != 'non member'){
+            if ($user->members->status == 1) {
+                $diskon = $user->members->diskon;
+                $total = $detailtransaksi - (($detailtransaksi* $diskon)/100);
+            }else{
+                $total = $detailtransaksi;
             }
-
-
-
-        $user = User::find(Auth::id());
-        $detailtransaksi = DetailTransaksi::where('transaksi_id', $transaksi->id)->first();
+            $transaksi->update([
+                'total' => $total
+            ]);
+        }elseif($user->members->nama == 'non member'){
+            $transaksi->update([
+                'total' => $detailtransaksi
+            ]);
+        }
+        
         $point = $user->point;
-      
-            if($detailtransaksi->total >= 100000){
-                $jmlh = $point + 20;
-                if($jmlh > 100 && $jmlh < 200){
-                    $member = 'bronze';
-                }elseif($jmlh >= 200 && $jmlh < 300){
-                    $member = 'silver';
-                }elseif($jmlh >= 300 ){
-                    $member = 'gold';
-                }
-                $user->update([
-                    'member' => $member,
-                    'point' => $jmlh
-                ]);
+        $member = 1;
+        
+        if($detailtransaksi >= 100000){
+            $jmlh = $point + 20;
+
+            if($jmlh >= 100 && $jmlh < 200){
+                $member = 2;
+            }elseif($jmlh >= 200 && $jmlh < 300){
+                $member = 3;
+            }elseif($jmlh >= 300 ){
+                $member = 4;
+            }
             
+            $user->update([
+                'member' => $member,
+                'point' => $jmlh
+            ]);
         }
 
         Keranjang::where('id_user', Auth::id())->delete();

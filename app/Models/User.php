@@ -49,6 +49,11 @@ class User extends Authenticatable implements FilamentUser
         return false;
     }
 
+    public function members()
+    {
+        return $this->belongsTo(member::class, 'member');
+    }
+
     /**
      * The attributes that should be cast.
      *
