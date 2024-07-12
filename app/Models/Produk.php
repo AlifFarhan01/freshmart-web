@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Produk extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
-     protected $table = 'produk';
+    protected $table = 'produk';
 
     protected $fillable =[
         'nama',

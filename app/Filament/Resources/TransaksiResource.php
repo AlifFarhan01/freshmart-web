@@ -7,6 +7,7 @@ use App\Filament\Resources\TransaksiResource\Pages;
 use App\Models\DetailTransaksi;
 use App\Models\Produk;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -115,5 +116,10 @@ class TransaksiResource extends Resource
             'create' => Pages\CreateTransaksi::route('/create'),
             'edit' => Pages\EditTransaksi::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->orderBy('created_at', 'DESC');
     }
 }

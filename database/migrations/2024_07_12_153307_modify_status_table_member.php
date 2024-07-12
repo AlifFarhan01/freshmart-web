@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('Users', function (Blueprint $table) {
-            $table->enum('member',['nonmember','bronze', 'silver', 'gold'])->default('nonmember')->nullable()->change();
+        Schema::table('member', function (Blueprint $table) {
+            $table->boolean('status')->comment('0 = tidak aktif, 1 = aktif')->default(0)->change();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('Users', function (Blueprint $table) {
-            $table->comment('member', '1 = bronze, 0 = non member, 2 = silver, 3 = gold')->default(0)->nullable()->change();
+        Schema::table('member', function (Blueprint $table) {
+            //
         });
     }
 };

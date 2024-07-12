@@ -65,14 +65,14 @@ class UsersResource extends Resource
                         'Customer' => 'warning',
                     })
                     ->searchable(),
-                TextColumn::make('member')
+                TextColumn::make('members.nama')
                     ->label('Status Member')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'non member' => 'danger',
                         'bronze' => 'primary',
                         'silver' => 'warning',
-                        'gold' => 'succes',
+                        'gold' => 'success',
                     })
                     ->searchable(),
                 TextColumn::make('point')
