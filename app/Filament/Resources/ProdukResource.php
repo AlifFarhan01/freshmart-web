@@ -17,6 +17,7 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -24,6 +25,7 @@ class ProdukResource extends Resource
 {
     protected static ?string $model = Produk::class;
     protected static ?string $pluralLabel = 'Produk';
+    protected static ?string $navigationGroup = 'Data Master';
     protected static ?string $navigationIcon = 'heroicon-s-view-columns';
 
     public static function form(Form $form): Form
@@ -73,7 +75,6 @@ class ProdukResource extends Resource
                 TextColumn::make('kategori.name')
                     ->label('Kategori')
                     ->searchable(),
-                
                 Tables\Columns\TextColumn::make('satuan')
                     ->searchable(),
                 TextColumn::make('harga')
@@ -81,8 +82,6 @@ class ProdukResource extends Resource
                     ->formatStateUsing(function ($state) {
                         return 'Rp.' . number_format($state, 0, ',', '.');
                     }),
-                // SpatieMediaLibraryImageColumn::make('produk')->collection('produk'),
-                    
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -93,16 +92,15 @@ class ProdukResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('kategori.name')
+                    ->label('Kategori')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                  Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 

@@ -6,6 +6,7 @@ use App\Filament\Resources\UsersResource\Pages;
 use App\Models\User;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -16,7 +17,8 @@ class UsersResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationGroup = 'User & Role';
 
     public static function form(Form $form): Form
     {
@@ -53,14 +55,28 @@ class UsersResource extends Resource
                     ->label('Nama Lengkap')
                     ->searchable(),
                 TextColumn::make('email')
+                    ->label('Email')
                     ->searchable(),
                 TextColumn::make('roles.name')
                     ->label('Roles')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'Admin' => 'success',
-                        'Customer' => 'danger',
+                        'Customer' => 'warning',
                     })
+                    ->searchable(),
+                TextColumn::make('member')
+                    ->label('Status Member')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'non member' => 'danger',
+                        'bronze' => 'primary',
+                        'silver' => 'warning',
+                        'gold' => 'succes',
+                    })
+                    ->searchable(),
+                TextColumn::make('point')
+                    ->label('Point')
                     ->searchable(),
             ])
             ->filters([
