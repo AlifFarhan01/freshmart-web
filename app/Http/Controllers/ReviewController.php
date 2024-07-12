@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Produk;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
-class ProdukController extends Controller
+class ReviewController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $produk=Produk::paginate(15);
-       $reviews = Review::latest()->take(5)->get();
-        return view('welcome',compact('produk','reviews'));
+       //
     }
 
     /**
@@ -30,8 +28,28 @@ class ProdukController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
+   {
+         Log::info('Received review submission:', $request->all());
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'review' => 'required|string|max:255',
+        ]);
+
+         Log::info('Validated review data:', [
+            'id_user' => auth()->id(),
+            'rating' => $request->rating,
+            'review' => $request->review,
+        ]);
+
+        $review = new Review();
+        $review->id_user = auth()->user()->id; // Assuming the user is logged in
+        $review->rating = $request->rating;
+        $review->review = $request->review;
+        $review->save();
+
+        Log::info('Review saved successfully:', $review->toArray());
+
+        return response()->json(['success' => true]);
     }
 
     /**

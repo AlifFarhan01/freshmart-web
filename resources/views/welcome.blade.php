@@ -133,6 +133,8 @@
         </div>
     </section>
     <!-- Fruits Shop End-->
+
+    @include('review')
     <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -217,5 +219,38 @@
                 }
             };
         });
+
+        function submitReview() {
+            var rating = document.getElementById('rating').value;
+            var review = document.getElementById('review').value;
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            fetch('/reviews', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({
+                        rating: rating,
+                        review: review
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Review berhasil dikirim!');
+                        // Close the modal and reset the form
+                        document.getElementById('reviewForm').reset();
+                        var modal = bootstrap.Modal.getInstance(reviewModal);
+                        modal.hide();
+                    } else {
+                        alert('Gagal mengirim review. Silakan coba lagi.');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
     </script>
 @endsection

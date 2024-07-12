@@ -4,6 +4,7 @@ use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,9 @@ Route::get('/cart-count', [KeranjangController::class, 'getCartCount']);
 Route::delete('/keranjang/delete/{id}', [KeranjangController::class, 'deleteItem'])->name('keranjang.delete');
 Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
  Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
+
+ Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+
 
 Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
 Route::middleware('auth')->group(function () {
