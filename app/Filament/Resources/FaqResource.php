@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class FaqResource extends Resource
 {
     protected static ?string $model = Faq::class;
-
+    protected static ?string $navigationGroup = 'Data Master';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
