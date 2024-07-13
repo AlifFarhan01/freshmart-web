@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Faq;
 use App\Models\Produk;
 use App\Models\Review;
 use Illuminate\Http\Request;
@@ -15,7 +16,8 @@ class ProdukController extends Controller
     {
    $produk=Produk::paginate(15);
    $reviews = Review::with('user')->latest()->take(5)->get();
-        return view('welcome',compact('produk','reviews'));
+   $faq = Faq::all();
+        return view('welcome',compact('produk','reviews','faq'));
     }
 
     /**

@@ -23,8 +23,9 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="img/vegetable-item-3.png" class="img-fluid me-5 rounded-circle"
-                                            style="width: 80px; height: 80px;" alt="">
+                                        <img src="{{ asset('storage/' . $detail->produk->image) }}"
+                                            class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;"
+                                            alt="">
                                     </div>
                                 </td>
                                 <td>

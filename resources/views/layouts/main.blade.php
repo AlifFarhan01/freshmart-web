@@ -74,7 +74,7 @@
                 </button>
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
-                        <a href="#home" id="home-link"class="nav-item nav-link">Home</a>
+                        <a href="{{ route('home') }}" id="home-link"class="nav-item nav-link">Home</a>
                         <a href="#shop" id="shop-link"class="nav-item nav-link">Shop</a>
                         <a href="#FAQ" class="nav-item nav-link">FAQ</a>
                         <a href="#contact" class="nav-item nav-link">Contact</a>
@@ -88,9 +88,29 @@
 
 
                         @auth
-                            <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary  me-4">
-                                <i class="fa fa-star me-2 text-primary"></i> Gabung Member
-                            </button>
+                            @php
+                                $user = auth()->user();
+                                $memberLevel = $user->member;
+                                $isMember1 = $memberLevel == 1;
+                            @endphp
+
+                            @if (!$isMember1)
+                                @if ($memberLevel == 2)
+                                    <button type="button"
+                                        class="btn border border-secondary rounded-pill px-3 btn-bronze  text-primary me-4">
+                                        <i class="  fas fa-star me-2 text-primary"></i>Bronze</button>
+                                @elseif ($memberLevel == 3)
+                                    <button type="button"
+                                        class="btn border border-secondary rounded-pill px-3 btn-silver text-primary me-4">
+                                        <i class="fas fa-medal me-2 text-primary"></i>Silver</button>
+                                @elseif ($memberLevel == 4)
+                                    <button type="button"
+                                        class="btn border border-secondary rounded-pill px-3 btn-gold text-primary me-4">
+                                        <i class="fas fa-trophy me-2 text-primary"></i>Gold</button>
+                                @endif
+                            @endif
+
+
                             @include('keranjang')
 
                             <div class="nav-item dropdown">
@@ -98,6 +118,9 @@
                                     <i class="fas fa-user fa-2x"></i>
                                 </a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                    <div class="dropdown-item">
+                                        <small>Point Anda: {{ auth()->user()->point }}</small>
+                                    </div>
                                     <a href="{{ route('profile.edit') }}" class="dropdown-item">Profile</a>
                                     <a href="{{ route('history.index') }}" class="dropdown-item">History</a>
                                     <form method="POST" action="{{ route('logout') }}">

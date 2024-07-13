@@ -21,6 +21,13 @@
     </div>
     <div id="cart-items"></div>
     <div class="total-container d-flex justify-content-center py-3 border-bottom border-top">
+        <p class="mb-0 text-dark text-uppercase">Disc: @php
+            $user = auth()->user();
+            echo $user->members->diskon;
+        @endphp%</p>
+    </div>
+    <div class="total-container d-flex justify-content-center py-3 border-bottom border-top">
+
         <p class="mb-0 text-dark text-uppercase">TOTAL: <span id="total-price">0</span></p>
 
     </div>
@@ -88,12 +95,13 @@
                             </tr>
                         `;
                     });
+
                 } else {
                     cartTableBody = '<tr><td colspan="6"><p>Keranjang anda kosong.</p></td></tr>';
                 }
-
+                let totalSetelahDiskon = totalPrice - (totalPrice * ("{{ Auth::user()->members->diskon }}" / 100));
                 document.getElementById('cart-table-body').innerHTML = cartTableBody;
-                document.getElementById('total-price').innerText = totalPrice.toLocaleString('id-ID');
+                document.getElementById('total-price').innerText = totalSetelahDiskon.toLocaleString('id-ID');
                 document.getElementById('cart-count').innerText = data.length;
             })
             .catch(error => console.error('Error loading cart items:', error));
@@ -124,7 +132,10 @@
             })
             .then(data => {
                 alert('Transaksi berhasil disimpan');
-                // Reset cart after successful transaction
+                var reviewModal = new bootstrap.Modal(document.getElementById('reviewModal'), {
+                    keyboard: false
+                });
+                reviewModal.show();
                 loadCartItems();
             })
             .catch(error => {

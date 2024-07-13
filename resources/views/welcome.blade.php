@@ -135,6 +135,8 @@
     <!-- Fruits Shop End-->
 
     @include('review')
+
+    @include('Faq')
     <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

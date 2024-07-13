@@ -75,7 +75,10 @@ class TransaksiResource extends Resource
                     ->searchable(),
                 TextColumn::make('total')
                     ->label('Total')
-                    ->searchable(),
+                    ->searchable()
+                      ->formatStateUsing(function ($state) {
+                        return 'Rp.' . number_format($state, 0, ',', '.');
+                    }),
                 TextColumn::make('created_at')
                     ->label('Tanggal')
                     ->searchable(),

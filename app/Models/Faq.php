@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Member extends Model
+class Faq extends Model
 {
-
-    protected $table = 'member';
+      protected $table = 'faq';
     public $timestamps = false;
     use HasFactory;
     protected $fillable =[
-        'nama',
-        'diskon',
-        'status',
+        'pertanyaan',
+        'jawaban',
     ];
 }
+

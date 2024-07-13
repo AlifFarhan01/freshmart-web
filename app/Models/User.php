@@ -51,7 +51,7 @@ class User extends Authenticatable implements FilamentUser
 
     public function members()
     {
-        return $this->belongsTo(member::class, 'member');
+        return $this->belongsTo(Member::class, 'member');
     }
 
     /**

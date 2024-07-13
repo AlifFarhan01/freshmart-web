@@ -45,45 +45,28 @@ class TransaksiController extends Controller
             ]);
         }
 
+        $point = floor($validatedData['total'] / 20000) * 10;
+        $user = User::find(Auth::id());
+        $user->point += $point;
+        $user->save();
 
-        $detailtransaksi = DetailTransaksi::where('transaksi_id', $transaksi->id)->sum('total');
-        $user = User::with('members')->find(Auth::id());
-
-        if($user->members->nama != 'non member'){
-            if ($user->members->status == 1) {
-                $diskon = $user->members->diskon;
-                $total = $detailtransaksi - (($detailtransaksi* $diskon)/100);
-            }else{
-                $total = $detailtransaksi;
-            }
-            $transaksi->update([
-                'total' => $total
-            ]);
-        }elseif($user->members->nama == 'non member'){
-            $transaksi->update([
-                'total' => $detailtransaksi
-            ]);
-        }
         
-        $point = $user->point;
         $member = 1;
         
-        if($detailtransaksi >= 100000){
-            $jmlh = $point + 20;
 
-            if($jmlh >= 100 && $jmlh < 200){
+
+            if(  $user->point >= 100 &&   $user->point < 200){
                 $member = 2;
-            }elseif($jmlh >= 200 && $jmlh < 300){
+            }elseif(  $user->point >= 200 &&   $user->point < 300){
                 $member = 3;
-            }elseif($jmlh >= 300 ){
+            }elseif(  $user->point >= 300 ){
                 $member = 4;
             }
             
             $user->update([
                 'member' => $member,
-                'point' => $jmlh
             ]);
-        }
+        
 
         Keranjang::where('id_user', Auth::id())->delete();
       

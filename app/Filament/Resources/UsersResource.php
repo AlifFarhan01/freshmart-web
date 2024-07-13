@@ -72,7 +72,7 @@ class UsersResource extends Resource
                         'non member' => 'danger',
                         'bronze' => 'primary',
                         'silver' => 'warning',
-                        'gold' => 'success',
+                        'Gold' => 'success',
                     })
                     ->searchable(),
                 TextColumn::make('point')
