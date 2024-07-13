@@ -70,7 +70,7 @@ class UsersResource extends Resource
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'non member' => 'danger',
-                        'bronze' => 'primary',
+                        'Bronze' => 'primary',
                         'silver' => 'warning',
                         'Gold' => 'success',
                     })

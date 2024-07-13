@@ -21,10 +21,16 @@
     </div>
     <div id="cart-items"></div>
     <div class="total-container d-flex justify-content-center py-3 border-bottom border-top">
-        <p class="mb-0 text-dark text-uppercase">Disc: @php
-            $user = auth()->user();
-            echo $user->members->diskon;
-        @endphp%</p>
+        <p class="mb-0 text-dark text-uppercase">Disc:
+            @php
+                $user = auth()->user();
+                if ($user->members->status == 1) {
+                    echo $user->members->diskon . '%';
+                } else {
+                    echo '0%';
+                }
+            @endphp
+        </p>
     </div>
     <div class="total-container d-flex justify-content-center py-3 border-bottom border-top">
 
@@ -70,6 +76,7 @@
             .then(data => {
                 let cartTableBody = '';
                 let totalPrice = 0;
+                let totalSetelahDiskon;
 
                 if (data.length > 0) {
                     data.slice(0, 5).forEach(item => { // Show only the first 5 items
@@ -99,7 +106,13 @@
                 } else {
                     cartTableBody = '<tr><td colspan="6"><p>Keranjang anda kosong.</p></td></tr>';
                 }
-                let totalSetelahDiskon = totalPrice - (totalPrice * ("{{ Auth::user()->members->diskon }}" / 100));
+
+                if ("{{ Auth::user()->members->status }}" == 1) {
+                    totalSetelahDiskon = totalPrice - (totalPrice * ("{{ Auth::user()->members->diskon }}" /
+                        100));
+                } else {
+                    totalSetelahDiskon = totalPrice;
+                }
                 document.getElementById('cart-table-body').innerHTML = cartTableBody;
                 document.getElementById('total-price').innerText = totalSetelahDiskon.toLocaleString('id-ID');
                 document.getElementById('cart-count').innerText = data.length;

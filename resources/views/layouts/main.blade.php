@@ -65,8 +65,9 @@
         </div>
         <div class="container px-0">
             <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                <a href="index.html" class="navbar-brand">
-                    <h1 class="text-primary display-6">Fresh Mart</h1>
+                <a href="{{ route('home') }}" class="navbar-brand">
+                    <img src="{{ asset('img/logo.png') }}" alt="Fresh Mart Logo" class="img-fluid"
+                        style="height: 100px;">
                 </a>
                 <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarCollapse">
@@ -76,8 +77,9 @@
                     <div class="navbar-nav mx-auto">
                         <a href="{{ route('home') }}" id="home-link"class="nav-item nav-link">Home</a>
                         <a href="#shop" id="shop-link"class="nav-item nav-link">Shop</a>
+                        <a href="#testimoni" class="nav-item nav-link">Testimoni</a>
                         <a href="#FAQ" class="nav-item nav-link">FAQ</a>
-                        <a href="#contact" class="nav-item nav-link">Contact</a>
+
                     </div>
                     <div class="d-flex m-3 me-0">
 
